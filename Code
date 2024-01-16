@@ -1,0 +1,16 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+image = cv2.imread("image.jpg")
+hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+lower = np.array([20,50,50], dtype = np.uint8)
+upper = np.array([40,255,255], dtype = np.uint8)
+bin_mask = cv2.inRange(hsv_image, lower, upper)
+contours, a = cv2.findContours(bin_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+bin_image = image.copy()
+cv2.drawContours(bin_image, contours, -1, (0, 255, 0), 2)
+import time
+cv2.imshow("Original", image)
+cv2.imshow("Binary Image: ", bin_image)
+cv2.imshow("Binary Mask: ", bin_mask)
+plt.show()
